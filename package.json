@@ -7,11 +7,15 @@
   "author": "qkrdmstlr3",
   "license": "MIT",
   "packageManager": "yarn@3.7.0",
+  "scripts": {
+    "build": "tsup"
+  },
   "devDependencies": {
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "tsup": "^8.1.0",
     "typescript": "5.1.3"
   },
   "peerDependencies": {
