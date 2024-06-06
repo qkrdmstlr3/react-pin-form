@@ -1,0 +1,9 @@
+{
+  "name": "react-pin-form",
+  "version": "1.0.0",
+  "description": "🖱  React Hook for PIN codes.",
+  "main": "index.js",
+  "repository": "https://github.com/qkrdmstlr3/react-pin-form",
+  "author": "qkrdmstlr3",
+  "license": "MIT"
+}
