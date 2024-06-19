@@ -41,6 +41,9 @@ devDependencies:
   '@types/react-dom':
     specifier: ^18.3.0
     version: 18.3.0
+  chromatic:
+    specifier: ^11.5.4
+    version: 11.5.4
   react:
     specifier: ^18.1.0
     version: 18.3.1
