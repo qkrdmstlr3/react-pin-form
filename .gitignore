@@ -6,13 +6,5 @@ logs
 node_modules
 bower_components
 
-### yarn ###
-
-.yarn/*
-!.yarn/releases
-!.yarn/patches
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
-!.yarn/cache
-
+### etc ###
+dist
