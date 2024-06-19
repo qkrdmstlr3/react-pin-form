@@ -6,8 +6,9 @@
   "repository": "https://github.com/qkrdmstlr3/react-pin-form",
   "author": "qkrdmstlr3",
   "license": "MIT",
-  "packageManager": "yarn@3.7.0",
+  "packageManager": "pnpm@8.15.2",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "build": "tsup"
   },
   "devDependencies": {
