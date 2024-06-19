@@ -2,11 +2,25 @@
   "name": "react-pin-form",
   "version": "1.0.0",
   "description": "🖱  React Hook for PIN codes.",
-  "main": "index.js",
   "repository": "https://github.com/qkrdmstlr3/react-pin-form",
   "author": "qkrdmstlr3",
   "license": "MIT",
   "packageManager": "pnpm@8.15.2",
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    }
+  },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "tsup"
@@ -22,5 +36,6 @@
   "peerDependencies": {
     "react": "^18",
     "react-dom": "^18"
-  }
+  },
+  "sideEffects": false
 }
