@@ -7,9 +7,22 @@ import { EMPTY_CHAR } from '../constants';
 type Validate = RegExp | ((char: string) => boolean);
 
 interface Props {
+  /**
+   * @description pin length
+   */
   length: number;
+  /**
+   * @description initial pin value. shorter than length prop.
+   */
   initialValue?: string;
+  /**
+   * @description validate pin char
+   */
   validate?: Validate;
+  /**
+   * @description input autoFocus
+   * @default false
+   */
   autoFocus?: boolean;
 }
 
