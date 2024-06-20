@@ -15,7 +15,7 @@ interface Props {
 
 type Event = { type: 'input'; value: string; index: number } | { type: 'delete'; index: number } | { type: 'clearAll' };
 
-export function usePinForm({ length, initialValue, autoFocus, validate }: Props) {
+export function usePinForm({ length, initialValue, autoFocus = false, validate }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState(ensureStringLength(initialValue ?? createEmptyString(length), length));
   const [focusedIndex, setFocusedIndex] = useState(0);
@@ -54,7 +54,6 @@ export function usePinForm({ length, initialValue, autoFocus, validate }: Props)
     setValue(nextValue);
 
     const nextFocusedIndex = Math.min(length, focusedIndex + events.length);
-    console.log(nextFocusedIndex);
     setFocusedIndex(nextFocusedIndex);
   };
 
