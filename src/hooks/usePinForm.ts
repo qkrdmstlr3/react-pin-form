@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { ClipboardEvent, KeyboardEvent } from 'react';
+import { ClipboardEvent, KeyboardEvent, useRef } from 'react';
 import { ensureStringLength } from '../utils/ensureStringLength';
 import { createEmptyString } from '../utils/createEmptyString';
 import { EMPTY_CHAR } from '../constants';
@@ -10,33 +10,66 @@ interface Props {
   length: number;
   initialValue?: string;
   validate?: Validate;
+  autoFocus?: boolean;
 }
 
 type Event = { type: 'input'; value: string; index: number } | { type: 'delete'; index: number } | { type: 'clearAll' };
 
-export function usePinForm({ length, initialValue, validate }: Props) {
+export function usePinForm({ length, initialValue, autoFocus, validate }: Props) {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState(ensureStringLength(initialValue ?? createEmptyString(length), length));
   const [focusedIndex, setFocusedIndex] = useState(0);
 
-  const onKeyup = (event: KeyboardEvent<HTMLInputElement>) => {
-    setValue(getNextValue(value, []));
-    setFocusedIndex(prevIndex => prevIndex + 1);
+  const isFinished = focusedIndex >= length;
+
+  const onKeyUp = (event: KeyboardEvent<HTMLInputElement>) => {
+    switch (event.key) {
+      case 'Backspace': {
+        setValue(getNextValue(value, [{ type: 'delete', index: focusedIndex - 1 }]));
+
+        const nextFocusedIndex = Math.max(0, focusedIndex - 1);
+        setFocusedIndex(nextFocusedIndex);
+        break;
+      }
+      default: {
+        if (isFinished) {
+          return;
+        }
+        // FIXME: only char
+        setValue(getNextValue(value, [{ type: 'input', value: event.key, index: focusedIndex }]));
+
+        const nextFocusedIndex = focusedIndex + 1;
+        setFocusedIndex(nextFocusedIndex);
+      }
+    }
   };
 
   const onPaste = (event: ClipboardEvent<HTMLInputElement>) => {
-    setValue(getNextValue(value, []));
-    setFocusedIndex(prevIndex => prevIndex + 1);
+    if (isFinished) {
+      return;
+    }
+    const pastedText = [...event.clipboardData.getData('text')];
+    const events = pastedText.map<Event>((value, index) => ({ type: 'input', index: focusedIndex + index, value }));
+    const nextValue = getNextValue(value, events);
+    setValue(nextValue);
+
+    const nextFocusedIndex = Math.min(length, focusedIndex + events.length);
+    console.log(nextFocusedIndex);
+    setFocusedIndex(nextFocusedIndex);
   };
 
-  const onFocus = (index: number) => {
+  const onBoxFocus = (index: number) => {
+    inputRef.current.focus();
     setFocusedIndex(index);
+    setValue(getNextValue(value, [{ type: 'delete', index }]));
   };
 
   const onClearAll = () => {
+    setFocusedIndex(0);
     setValue(getNextValue(value, [{ type: 'clearAll' }]));
   };
 
-  return { value, focusedIndex, onFocus, onKeyup, onPaste, onClearAll };
+  return { value, focusedIndex, onBoxFocus, onClearAll, inputProps: { ref: inputRef, autoFocus, onKeyUp, onPaste } };
 }
 
 function getNextValue(value: string, events: Event[]): string {
@@ -46,6 +79,15 @@ function getNextValue(value: string, events: Event[]): string {
     switch (event.type) {
       case 'clearAll': {
         values.forEach((_, index) => (values[index] = EMPTY_CHAR));
+        break;
+      }
+      case 'input': {
+        values[event.index] = event.value;
+        break;
+      }
+      case 'delete': {
+        values[event.index] = EMPTY_CHAR;
+        break;
       }
     }
   });
