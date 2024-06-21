@@ -1,7 +1,53 @@
 import { Meta } from '@storybook/blocks';
+import { Example } from './code/Example';
 
 <Meta title="Introduction" />
 
 # React Pin Form
 
 🖱 React Hook for PIN codes.
+
+<Example />
+
+## Install
+
+```
+yarn add react-pin-form
+pnpm intall react-pin-form
+npm install react-pin-form
+```
+
+**peer Dependencies**
+
+```json
+{
+  "react": "^18",
+  "react-dom": "^18"
+}
+```
+
+## How to Use
+
+```jsx
+import { usePinForm } from 'react-pin-form';
+
+export function Example() {
+  const { value, focusedIndex, inputRef, inputProps, onBoxFocus } = usePinForm({ length: 6, autoFocus: true });
+
+  return (
+    <>
+      <input ref={inputRef} {...inputProps} style={hiddenStyle} />
+      {value.map(() => (
+        // you can customize box ui as you want!
+        <div key={i} onClick={() => onBoxFocus(i)} />
+      )}
+    </>
+  )
+}
+
+const hiddenStyle = {
+  position: 'absolute';
+  top: -9999;
+  left: -9999;
+};
+```

@@ -7,6 +7,8 @@
 - Provides only the logic, excluding the UI (Users can customize the UI.).
 - Delegates the execution of result to the user.
 
+https://github.com/qkrdmstlr3/react-pin-form/assets/26402298/2873c0b1-92f8-4762-8d1d-ba51fc5b7803
+
 ## Install
 
 ```
