@@ -1,5 +1,8 @@
 # react-pin-form
 
+![version](https://img.shields.io/npm/v/react-pin-form)
+![dependencies](https://img.shields.io/badge/dependencies-none-success)
+
 - Provided as hook
 - Provides only the logic, excluding the UI (Users can customize the UI.).
 - Delegates the execution of result to the user.
