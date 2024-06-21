@@ -3,11 +3,13 @@
 ![version](https://img.shields.io/npm/v/react-pin-form)
 ![dependencies](https://img.shields.io/badge/dependencies-none-success)
 
-- Provided as hook
+- Provided as hook.
 - Provides only the logic, excluding the UI (Users can customize the UI.).
 - Delegates the execution of result to the user.
 
 https://github.com/qkrdmstlr3/react-pin-form/assets/26402298/2873c0b1-92f8-4762-8d1d-ba51fc5b7803
+
+<sub><a href="https://github.com/qkrdmstlr3/react-pin-form/blob/main/src/stories/code/Example.tsx" target="_blank">Example with framer-motion</a></sub>
 
 ## Install
 
@@ -46,9 +48,9 @@ export function Example() {
   return (
     <>
       <input ref={inputRef} {...inputProps} style={hiddenStyle} />
-      {value.map(() => (
+      {value.map((v, i) => (
         // you can customize box ui as you want!
-        <div key={i} onClick={() => onBoxFocus(i)} />
+        <div key={i} onClick={() => onBoxFocus(i)}>{v}</div>
       )}
     </>
   )
