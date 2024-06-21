@@ -3,6 +3,7 @@ import { ClipboardEvent, KeyboardEvent, useRef } from 'react';
 import { ensureStringLength } from '../utils/ensureStringLength';
 import { createEmptyString } from '../utils/createEmptyString';
 import { EMPTY_CHAR } from '../constants';
+import { validateText } from '../utils/validateString';
 
 type Validate = RegExp | ((char: string) => boolean);
 
@@ -28,7 +29,9 @@ interface Props {
 
 type Event = { type: 'input'; value: string; index: number } | { type: 'delete'; index: number } | { type: 'clearAll' };
 
-export function usePinForm({ length, initialValue, autoFocus = false, validate }: Props) {
+const SINGLE_CHAR_REGEX = /^.$/;
+
+export function usePinForm({ length, initialValue, autoFocus = false, validate = SINGLE_CHAR_REGEX }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState(ensureStringLength(initialValue ?? createEmptyString(length), length));
   const [focusedIndex, setFocusedIndex] = useState(0);
@@ -48,11 +51,15 @@ export function usePinForm({ length, initialValue, autoFocus = false, validate }
         if (isFinished) {
           return;
         }
-        // FIXME: only char
-        setValue(getNextValue(value, [{ type: 'input', value: event.key, index: focusedIndex }]));
+
+        const valid = validateText(validate, event.key);
+        if (valid === false) {
+          return;
+        }
 
         const nextFocusedIndex = focusedIndex + 1;
         setFocusedIndex(nextFocusedIndex);
+        setValue(getNextValue(value, [{ type: 'input', value: event.key, index: focusedIndex }]));
       }
     }
   };
@@ -81,7 +88,14 @@ export function usePinForm({ length, initialValue, autoFocus = false, validate }
     setValue(getNextValue(value, [{ type: 'clearAll' }]));
   };
 
-  return { value, focusedIndex, onBoxFocus, onClearAll, inputProps: { ref: inputRef, autoFocus, onKeyUp, onPaste } };
+  return {
+    value,
+    focusedIndex,
+    onBoxFocus,
+    onClearAll,
+    inputRef: inputRef,
+    inputProps: { autoFocus, onKeyUp, onPaste },
+  };
 }
 
 function getNextValue(value: string, events: Event[]): string {

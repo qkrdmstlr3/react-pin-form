@@ -6,11 +6,11 @@ export default {
 };
 
 export const Exp = () => {
-  const { value, inputProps, onBoxFocus } = usePinForm({ length: 6, autoFocus: true });
+  const { value, inputRef, inputProps, onBoxFocus } = usePinForm({ length: 6, autoFocus: true });
 
   return (
     <div style={containerStyle}>
-      <input style={inputStyle} {...inputProps} />
+      <input style={inputStyle} ref={inputRef} {...inputProps} />
       {[...value].map((v, i) => (
         <div
           key={i}
