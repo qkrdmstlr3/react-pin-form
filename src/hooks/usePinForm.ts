@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
 import type { ClipboardEvent, KeyboardEvent } from 'react';
-import { ensureStringLength } from '../utils/ensureStringLength.js';
-import { createEmptyString } from '../utils/createEmptyString.js';
-import { EMPTY_CHAR } from '../constants.js';
-import { validateString } from '../utils/validateString.js';
+import { ensureStringLength } from '../utils/ensureStringLength';
+import { createEmptyString } from '../utils/createEmptyString';
+import { EMPTY_CHAR } from '../constants';
+import { validateString } from '../utils/validateString';
 
 type Validate = RegExp | ((char: string) => boolean);
 
