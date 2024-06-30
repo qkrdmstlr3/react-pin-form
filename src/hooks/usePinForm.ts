@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { ClipboardEvent, KeyboardEvent, useRef } from 'react';
-import { ensureStringLength } from '../utils/ensureStringLength';
-import { createEmptyString } from '../utils/createEmptyString';
-import { EMPTY_CHAR } from '../constants';
-import { validateText } from '../utils/validateString';
+import { useState, useRef } from 'react';
+import type { ClipboardEvent, KeyboardEvent } from 'react';
+import { ensureStringLength } from '../utils/ensureStringLength.js';
+import { createEmptyString } from '../utils/createEmptyString.js';
+import { EMPTY_CHAR } from '../constants.js';
+import { validateString } from '../utils/validateString.js';
 
 type Validate = RegExp | ((char: string) => boolean);
 
@@ -52,7 +52,7 @@ export function usePinForm({ length, initialValue, autoFocus = false, validate =
           return;
         }
 
-        const valid = validateText(validate, event.key);
+        const valid = validateString(validate, event.key);
         if (valid === false) {
           return;
         }

@@ -1,1 +1,1 @@
-export { usePinForm } from './hooks/usePinForm';
+export { usePinForm } from './hooks/usePinForm.js';
